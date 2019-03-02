@@ -9,8 +9,8 @@ class Hello extends Controller
         public function index()
         {
              $users = \DB::select('select * from test');
-			 return $users;
+			// return $users;
 
-        //return view('hello', ['users' => $users]);
+        return view('hello', ['users' => $users]);
         }
 }

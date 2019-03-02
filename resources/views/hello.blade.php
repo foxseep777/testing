@@ -85,7 +85,7 @@
 @csrf
 	<input type ="submit" value = "send">
 </form>
-{{users}}
+
                 <div class="links">
                     <a href="http://195.230.158.57/qq">Documentation</a>
                     <a href="https://laracasts.com">Laracasts</a>
