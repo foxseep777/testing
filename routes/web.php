@@ -11,27 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return view('hello');
-});
-
-Route::get('/qq', function () {
-    return view('welcome');
-});
-
-Route::post('/qq', function () {
-    return view('welcome');
-});
-
-Route::get('/th', 'Hello@index');
 
 
+Route::get('/', 'Users@index');
+Route::post('/adduser', 'Users@adduser');
+Route::post('/addcompany', 'Companies@addcompany');
+Route::get('/generate', 'Report@generateData');
+Route::get('/report', 'Report@report');
+Route::get('/reportAbusers', 'Report@reportListAbusers');
+Route::get('/companies', 'Companies@index');
+Route::get('/abusers', 'Report@index');
 
-Route::get('user/{name}', function ($name) {
-    //
-	return $name;
-})->where('name', '[0-9]+');
-//Route::view('/welcome', 'welcome');
 
-//Route::redirect('/qq', '/th', 301);
  
