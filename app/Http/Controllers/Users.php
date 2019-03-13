@@ -12,7 +12,7 @@ class Users extends Controller
     	$users	   = $this->listUsers();
 		$companies = $this->listCompanies();	
 			
-		return view('listUsers', ['users' => $users, 'companies' => $companies]);
+		return view('users.listUsers', ['users' => $users, 'companies' => $companies]);
 	}
 
 	public function adduser()
@@ -27,7 +27,7 @@ class Users extends Controller
 	
 		$users	   = $this->listUsers();
 			
-		return view('listUsersUpd', ['users' => $users]);
+		return view('users.listUsersUpd', ['users' => $users]);
 	}
 	
 	private function listUsers()

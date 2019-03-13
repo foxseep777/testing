@@ -11,7 +11,7 @@ class Companies extends Controller
       {
 		$companies = $this->listCompanies();
 			
-		return view('listCompanies', ['companies' => $companies]);
+		return view('companies.listCompanies', ['companies' => $companies]);
 	}
 		
 	public function addcompany()
@@ -26,7 +26,7 @@ class Companies extends Controller
 
 		$companies = $this->listCompanies();
 			
-		return view('listCompaniesUpd', ['companies' => $companies]);
+		return view('companies.listCompaniesUpd', ['companies' => $companies]);
 			
 	}
 	

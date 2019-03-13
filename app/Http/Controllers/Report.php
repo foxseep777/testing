@@ -24,7 +24,7 @@ class Report extends Controller
 			$interval = array();
 			}
 		
-		return view('abusers',['min' => $interval]);
+		return view('abusers.abusers',['min' => $interval]);
 	}
 
     public function generateData()
@@ -63,9 +63,10 @@ class Report extends Controller
 					
 	}	
 
-	public function report()
+	public function report(Request $request)
     {
-		$month = isset($_GET['month']) ? (filter_var($_GET['month'], FILTER_SANITIZE_URL)) : '';
+	
+		$month = (Null != $request->input('month')) ? (filter_var($request->input('month'), FILTER_SANITIZE_URL)) : '';
 		
 			$monthArr = $this->monthInterval($month);
 		
@@ -167,17 +168,16 @@ class Report extends Controller
 			{	
 				$abCompany[$val->name]=$val;
 			}
-		return view('abUsComp', ['list' => $abCompany]);
+		return view('abusers.abUsComp', ['list' => $abCompany]);
 	}
-	public function reportListAbusers()
+	
+	public function reportListAbusers(Request $request)
 	{
-		$month = isset($_GET['month']) ? (filter_var($_GET['month'], FILTER_SANITIZE_URL)) : '';
-		$id = isset($_GET['id']) ? (filter_var($_GET['id'], FILTER_SANITIZE_URL)) : '';
+		$month = (Null != $request->input('month')) ? (filter_var($request->input('month'), FILTER_SANITIZE_URL)) : '';
+		$id = (Null != $request->input('id')) ? (filter_var($request->input('id'), FILTER_SANITIZE_URL)) : '';
 		$monthArr = $this->monthInterval($month);
 		
-		
-
-		$users = DB::table('transfer')->where('date', '>', $monthArr['startDate'])
+	 	$users = DB::table('transfer')->where('date', '>', $monthArr['startDate'])
 									  ->where('company_id', '=', $id)
 									  ->where('date', '<', $monthArr['finalDate'])
 									  ->join('users', function($join)
@@ -192,7 +192,6 @@ class Report extends Controller
 											  ->select('companies.name')
 											  ->first();
            					
-	
 		foreach($users as $user)
 		{
 			$user->date = date('j F Y H:m:s',$user->date);
@@ -200,7 +199,7 @@ class Report extends Controller
 			$user->transfer = ($user->transfer > 1 ?  round($user->transfer,2).' TB' : round(($user->transfer*1024)).' GB');
 		}
 	
-		return view('listAbusers',['users' => $users,'companyName' => $companyName]);
+		return view('abusers.listAbusers',['users' => $users,'companyName' => $companyName]);
 	}
 	
 	private function monthInterval($month)
