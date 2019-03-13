@@ -11,16 +11,12 @@ class Report extends Controller
 	public function index()
     {
 		$min = (DB::table('transfer')->min('date'));
-		if($min != Null){
-			$minDate = date('F-Y',$min);
-			for($x = 0; $x < 7; $x++){
-				$key =  date('F',strtotime( "$minDate +$x month" ));
-				$interval[$key] =  date('Y',strtotime( "$minDate +$x month" ));
-				
-			}
-		}
-		else{
-			$interval = array();
+		
+		$minDate = date('F-Y',$min);
+		for($x = 0; $x < 7; $x++){
+			$key =  date('F',strtotime( "$minDate +$x month" ));
+			$interval[$key] =  date('Y',strtotime( "$minDate +$x month" ));
+			
 		}
 		
 		return view('abusers',['min' => $interval]);
@@ -151,9 +147,8 @@ class Report extends Controller
 			$sortkey[$array[$k]->limit]=$array[$k];
 		}
 	
-		krsort($sortkey);
+		return krsort($sortkey);
 	
-		return $sortkey;
 	}
 	
 	
