@@ -12,11 +12,16 @@ class Report extends Controller
     {
 		$min = (DB::table('transfer')->min('date'));
 		
-		$minDate = date('F-Y',$min);
-		for($x = 0; $x < 7; $x++){
-			$key =  date('F',strtotime( "$minDate +$x month" ));
-			$interval[$key] =  date('Y',strtotime( "$minDate +$x month" ));
-			
+		if($min != Null){
+			$minDate = date('F-Y',$min);
+			for($x = 0; $x < 7; $x++){
+				$key =  date('F',strtotime( "$minDate +$x month" ));
+				$interval[$key] =  date('Y',strtotime( "$minDate +$x month" ));
+				
+			}
+		}
+		else{
+			$interval = array();
 		}
 		
 		return view('abusers',['min' => $interval]);
