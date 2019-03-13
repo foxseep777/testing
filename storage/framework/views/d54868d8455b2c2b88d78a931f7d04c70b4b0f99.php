@@ -13,13 +13,11 @@
 				<td><?php echo e($company->name); ?></td>
 				<td><?php echo e($company->quota); ?></td>
 				<td><?php echo e($company->limit); ?></td>
-				<td><a href="#" onclick="$.ajax({type: `GET`, url: `/reportAbusers`,
-					data:'month=<?php echo e($company->month); ?>&id=<?php echo e($company->id); ?>', 
-					success:function(response){$('#resSearch').html(response)}});">Abusers</a></td>
+				<td><a href="#" onclick="companyAdd('<?php echo e($company->id); ?>','<?php echo e($company->month); ?>');">Abusers</a></td>
 			</tr>
 		<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 	</tbody>
 </table>
-	
+	 
 
 

@@ -22,7 +22,7 @@ class Report extends Controller
 		}
 		else{
 			$interval = array();
-		}
+			}
 		
 		return view('abusers',['min' => $interval]);
 	}
@@ -152,7 +152,11 @@ class Report extends Controller
 			$sortkey[$array[$k]->limit]=$array[$k];
 		}
 	
-		return krsort($sortkey);
+		krsort($sortkey);
+		
+		return $sortkey;
+		
+		
 	
 	}
 	

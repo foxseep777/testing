@@ -13,13 +13,11 @@
 				<td>{{$company->name}}</td>
 				<td>{{$company->quota}}</td>
 				<td>{{$company->limit}}</td>
-				<td><a href="#" onclick="$.ajax({type: `GET`, url: `/reportAbusers`,
-					data:'month={{$company->month}}&id={{$company->id}}', 
-					success:function(response){$('#resSearch').html(response)}});">Abusers</a></td>
+				<td><a href="#" onclick="companyAdd('{{$company->id}}','{{$company->month}}');">Abusers</a></td>
 			</tr>
 		@endforeach
 	</tbody>
 </table>
-	
+	 
 
 

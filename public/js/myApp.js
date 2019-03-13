@@ -73,5 +73,11 @@ window.onload = function(){
 		document.getElementById("preloader_malc").style.display = "block";	
 	};
 };
+function companyAdd(id,month){
+	$.ajax({type: `GET`,
+					url: `/reportAbusers`,
+					data:'month='+month+'&id='+id, 
+					success:function(response){$('#resSearch').html(response)}});
+}
 
  
