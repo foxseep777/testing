@@ -17,8 +17,7 @@
 						<tr>
 							<th>Company</th>
 							<th>Quota</th>
-							<th></th>
-							<th></th>
+
 						</tr>	
 						</thead>
 						<tbody>
@@ -26,9 +25,6 @@
 							<tr>
 								<td><?php echo e($company->name); ?></td>
 								<td><?php echo e($company->quota); ?></td>
-								
-								<td><a href="">edit</a></td>
-								<td><a href="">delete</a></td>
 							</tr>
 						<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 						</tbody>
