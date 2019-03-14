@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+/* Class for working with the Users tab */
 class Users extends Controller
 {
+	/* List all users */
 	public function index()
     {
     	$users	   = $this->listUsers();
@@ -14,7 +16,8 @@ class Users extends Controller
 			
 		return view('users.listUsers', ['users' => $users, 'companies' => $companies]);
 	}
-
+	
+	/* Adding a new user */	
 	public function adduser(Request $user)
     {	
 		$data = ['user_name' => $user->input('name'),
@@ -29,6 +32,7 @@ class Users extends Controller
 		return view('users.listUsersUpd', ['users' => $users]);
 	}
 	
+	/* Selection of a list of users  before showing on the page */
 	private function listUsers()
 	{
 			$users = DB::table('users')
@@ -40,7 +44,8 @@ class Users extends Controller
 			
 			return $users;
 	}
-
+	
+	/* Selection of the user's company from the database */
 	private function listCompanies()
 	{
 			$companies = DB::table('companies')->select('companies.id','companies.name')->get();	

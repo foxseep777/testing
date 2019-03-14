@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+/* Report generation class */
 class Report extends Controller
 {
-
+	/* Generates a list of months on the Abusers page */
 	public function index()
     {
 		$min = (DB::table('transfer')->min('date'));
@@ -27,6 +28,7 @@ class Report extends Controller
 		return view('abusers.abusers',['min' => $interval]);
 	}
 
+	/* Generating and writing data to the 'transfer' table */
     public function generateData()
     {
 						
@@ -71,6 +73,7 @@ class Report extends Controller
 					
 	}	
 
+	/* Formation of the list of companies that exceeded the quota */
 	public function report(Request $request)
     {
 	
@@ -129,7 +132,7 @@ class Report extends Controller
 				
 	}	
 		
-	
+	/* Generating an array with data for one record in the 'transfer' table */
 	private function transferAdd($user, $interval, $faker, $randCheck = Null, $rand = NULL)
 	{
 			
@@ -141,10 +144,10 @@ class Report extends Controller
 			for($j = 0; $j < $rand; $j++)
 			{
 				$data = ['user_id' => $user->id,
-				'company_id' =>$user->id_company,
-				'resource' => "http://{$faker->ipv4()}",
-				'date' => rand($interval,$interval + 86400),
-				'transfer' => rand(100,1099511531399)];
+						 'company_id' =>$user->id_company,
+					     'resource' => "http://{$faker->ipv4()}",
+						 'date' => rand($interval,$interval + 86400),
+						 'transfer' => rand(100,1099511531399)];
 			}
 			
 		}
@@ -153,7 +156,8 @@ class Report extends Controller
 		}
 		
 	}
-			
+	
+/* The function of sorting a two-dimensional array by the key limit */	
 	private function sortArray($array)
 	{
 		foreach($array as $k=>$val)
@@ -167,7 +171,7 @@ class Report extends Controller
 
 	}
 	
-	
+	/*Replacing the key with the name of the company and displaying a list of companies exceeding the quota */
 	public function reportListCompanies($list)
 	{
 		foreach ($list as $key => $val) 
@@ -177,6 +181,7 @@ class Report extends Controller
 		return view('abusers.abUsComp', ['list' => $abCompany]);
 	}
 	
+	/* Formation of the list of abusers */
 	public function reportListAbusers(Request $request)
 	{
 		$month = (Null != $request->input('month')) ? (filter_var($request->input('month'), FILTER_SANITIZE_URL)) : '';
@@ -208,6 +213,7 @@ class Report extends Controller
 		return view('abusers.listAbusers',['users' => $users,'companyName' => $companyName]);
 	}
 	
+	/* Find the first and last month in the list on the Abusers page */
 	private function monthInterval($month)
 	{
 		if(!empty($month))
