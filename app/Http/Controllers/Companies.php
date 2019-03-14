@@ -14,12 +14,10 @@ class Companies extends Controller
 		return view('companies.listCompanies', ['companies' => $companies]);
 	}
 		
-	public function addcompany()
+	public function addcompany(Request $company)
     {	
-		$company = $_POST;
-			
-		$data = ['name' => $company['name'],
-				'quota' =>$company['quota']*1099511531399,
+		$data = ['name' => $company->input('name'),
+				'quota' =>$company->input('quota')*1099511531399,
 				'create_at' => time()];
 	
 		DB::table('companies')->insert([$data]);

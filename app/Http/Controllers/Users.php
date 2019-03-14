@@ -15,12 +15,11 @@ class Users extends Controller
 		return view('users.listUsers', ['users' => $users, 'companies' => $companies]);
 	}
 
-	public function adduser()
+	public function adduser(Request $user)
     {	
-		$user = $_POST;
-		$data = ['user_name' => $user['name'],
-				'id_company' =>$user['company'],
-				'email' => $user['email'],
+		$data = ['user_name' => $user->input('name'),
+				'id_company' =>$user->input('company'),
+				'email' => $user->input('email'),
 				'create_at' => time()];
 	
 		DB::table('users')->insert([$data]);
@@ -33,16 +32,11 @@ class Users extends Controller
 	private function listUsers()
 	{
 			$users = DB::table('users')
-		/*	->join('companies', function($join)
-			{
-				$join->on('users.id_company', '=','companies.id')->select('users.*', 'contacts.phone', 'orders.price');
-			})*/
+
 			->join('companies', 'users.id_company', '=', 'companies.id')
 			->select('users.*', 'companies.name')
 			->orderBy('create_at','desc')
             ->get();
-			/*
-			->get();*/
 			
 			return $users;
 	}

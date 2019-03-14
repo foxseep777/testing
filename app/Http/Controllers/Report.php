@@ -34,6 +34,7 @@ class Report extends Controller
 			$faker = \Faker\Factory::create();
 			$now = time();
 			$intTotal = 6;
+			$listUsed = array();
 
 			DB::table('transfer')->truncate();
 			
@@ -42,12 +43,18 @@ class Report extends Controller
 			for($i=0; $i <= 180; $i++)
 				{
 					foreach($transfer as $user)
+					{
+						$resp = $this->transferAdd($user,$intMonth,$faker);
+						if($resp != Null)
 						{
-							$this->transferAdd($user,$intMonth,$faker);
+							$listUsed[] = $resp;
 						}
+					}
 					$intMonth = $intMonth + 86400;
 				}
-					
+
+				DB::table('transfer')->insert($listUsed);
+				
 				$checkField =	DB::table('users')->whereNotExists(function ($query) {
 													$query->select(DB::raw(1))
 													  ->from('transfer')
@@ -59,6 +66,7 @@ class Report extends Controller
 					{
 						$this->transferAdd($user,$interval,$faker,9,1);
 					}
+					
 		return back()->withInput();
 					
 	}	
@@ -126,7 +134,7 @@ class Report extends Controller
 	{
 			
 		$randCheck = ($randCheck == NULL ? rand(0,20) : $randCheck);
-		if($randCheck > 10)
+		if($randCheck > 0)
 		{
 			$rand = ($rand == NULL ? rand(0,6) : $rand);
 						
@@ -141,7 +149,7 @@ class Report extends Controller
 			
 		}
 		if(isset($data)){
-			DB::table('transfer')->insert([$data]);
+			return $data;
 		}
 		
 	}
@@ -156,9 +164,7 @@ class Report extends Controller
 		krsort($sortkey);
 		
 		return $sortkey;
-		
-		
-	
+
 	}
 	
 	
