@@ -10,7 +10,7 @@ class Companies extends Controller
 {
 	/* List all companies */
     public function index()
-      {
+	{
 		$companies = $this->listCompanies();
 			
 		return view('companies.listCompanies', ['companies' => $companies]);
@@ -18,7 +18,7 @@ class Companies extends Controller
 	
 	/* Adding a new company */	
 	public function addcompany(Request $company)
-    {	
+	{	
 		$data = ['name' => $company->input('name'),
 				'quota' =>$company->input('quota')*1099511531399,
 				'create_at' => time()];
@@ -37,8 +37,7 @@ class Companies extends Controller
 		$companies = DB::table('companies')->orderBy('create_at','desc')
 										   ->get();
 		
-		foreach($companies as $company)
-		{
+		foreach($companies as $company){
 			$quota = ($company->quota/1099511531399);
 			$company->quota = ($quota > 1 ?  round($quota,2).'TB' : round(($quota*1024)).' GB');
 		}
