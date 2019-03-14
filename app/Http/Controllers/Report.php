@@ -20,98 +20,98 @@ class Report extends Controller
 				$interval[$key] =  date('Y',strtotime( "$minDate +$x month" ));
 				
 			}
-		}
-		else{
+		}else{
 			$interval = array();
-			}
+		}
 		
 		return view('abusers.abusers',['min' => $interval]);
 	}
 
 	/* Generating and writing data to the 'transfer' table */
-    public function generateData(){
+    public function generateData()
+	{
 						
-			$transfer = DB::table('users')->get();
-			$faker = \Faker\Factory::create();
-			$now = time();
-			$intTotal = 6;
-			$listUsed = array();
+		$transfer = DB::table('users')->get();
+		$faker = \Faker\Factory::create();
+		$now = time();
+		$intTotal = 6;
+		$listUsed = array();
 
-			DB::table('transfer')->truncate();
+		DB::table('transfer')->truncate();
 			
-			$interval = $now - 15552000;
-			$intMonth = $interval;
-			for($i=0; $i <= 180; $i++){
-					foreach($transfer as $user){
-						$resp = $this->transferAdd($user,$intMonth,$faker);
-						if($resp != Null){
-							$listUsed[] = $resp;
-						}
-					}
-					$intMonth = $intMonth + 86400;
+		$interval = $now - 15552000;
+		$intMonth = $interval;
+		for($i=0; $i <= 180; $i++){
+			foreach($transfer as $user){
+				$resp = $this->transferAdd($user,$intMonth,$faker);
+				if($resp != Null){
+					$listUsed[] = $resp;
 				}
+			}
+			$intMonth = $intMonth + 86400;
+		}
 
-				DB::table('transfer')->insert($listUsed);
+		DB::table('transfer')->insert($listUsed);
 				
-				$checkField =	DB::table('users')->whereNotExists(function ($query){
-													$query->select(DB::raw(1))
-													  ->from('transfer')
-													  ->whereRaw("transfer.user_id =users.id");
+		$checkField =	DB::table('users')->whereNotExists(function ($query){
+											$query->select(DB::raw(1))
+												->from('transfer')
+												->whereRaw("transfer.user_id =users.id");
 												})->get();
 
-
-				foreach($checkField as $key=>$user){
-					$this->transferAdd($user,$interval,$faker,9,1);
-				}
+		foreach($checkField as $key=>$user){
+			$this->transferAdd($user,$interval,$faker,9,1);
+		}
 					
 		return back()->withInput();
 	}	
 
 	/* Formation of the list of companies that exceeded the quota */
-	public function report(Request $request){
+	public function report(Request $request)
+	{
 	
 		$month = (Null != $request->input('month')) ? (filter_var($request->input('month'), FILTER_SANITIZE_URL)) : '';
 		
-			$monthArr = $this->monthInterval($month);
+		$monthArr = $this->monthInterval($month);
 		
-			$startDate = $monthArr['startDate'];	
-			$finalDate = $monthArr['finalDate'];
+		$startDate = $monthArr['startDate'];	
+		$finalDate = $monthArr['finalDate'];
 
-			$abusers = array();	
+		$abusers = array();	
 				
-			$transfer = DB::table('users')
-						->join('companies', function($join)
+		$transfer = DB::table('users')
+					->join('companies', function($join)
 					{
 						$join->on('users.id_company', '=','companies.id')->select('users.id', 'users.user_name', 'companies.name');;
 					})
-			->get();
+					->get();
 
-			$transfer = \DB::table('users')->get();
-			$companyQuota = \DB::table('companies')->get();
+		$transfer = \DB::table('users')->get();
+		$companyQuota = \DB::table('companies')->get();
 			
-			foreach($companyQuota as $quota){
-				$used = 0;
-				$abUser = array();
-				foreach($transfer as $user){
-					$users = DB::table('transfer')->where('user_id', '=', $user->id)
-												  ->where('company_id', '=', $quota->id)
-												  ->where('date', '>', $startDate)
-												  ->where('date', '<', $finalDate)
-												  ->sum('transfer');
-					if($users > 0){
-						$used += $users;
-					}				
-				}	
-				if($quota->quota < $used){
-					$quota->limit = $used/1099511531399;
-					$quota->limit = ($quota->limit > 1 ?  round($quota->limit,2).' TB' : round(($quota->limit*1024)).' GB');
-					$quota->quota =$quota->quota/1099511531399;
-					$quota->quota = ($quota->quota > 1 ?  round($quota->quota,2).' TB' : round(($quota->quota*1024)).' GB');
-					$quota->month = $month;
-					$abCompany['company'][$quota->name] = $quota;
+		foreach($companyQuota as $quota){
+			$used = 0;
+			$abUser = array();
+			foreach($transfer as $user){
+				$users = DB::table('transfer')->where('user_id', '=', $user->id)
+											  ->where('company_id', '=', $quota->id)
+											  ->where('date', '>', $startDate)
+											  ->where('date', '<', $finalDate)
+											  ->sum('transfer');
+				if($users > 0){
+					$used += $users;
+				}				
+			}	
+			if($quota->quota < $used){
+				$quota->limit = $used/1099511531399;
+				$quota->limit = ($quota->limit > 1 ?  round($quota->limit,2).' TB' : round(($quota->limit*1024)).' GB');
+				$quota->quota =$quota->quota/1099511531399;
+				$quota->quota = ($quota->quota > 1 ?  round($quota->quota,2).' TB' : round(($quota->quota*1024)).' GB');
+				$quota->month = $month;
+				$abCompany['company'][$quota->name] = $quota;
 						
-				}	
-			}
+			}	
+		}
 		
 		if(isset($abCompany))
 		{
@@ -123,8 +123,8 @@ class Report extends Controller
 	}	
 		
 	/* Generating an array with data for one record in the 'transfer' table */
-	private function transferAdd($user, $interval, $faker, $randCheck = Null, $rand = NULL){
-			
+	private function transferAdd($user, $interval, $faker, $randCheck = Null, $rand = NULL)
+	{
 		$randCheck = ($randCheck == NULL ? rand(0,20) : $randCheck);
 		if($randCheck > 0){
 			$rand = ($rand == NULL ? rand(0,6) : $rand);
@@ -135,17 +135,16 @@ class Report extends Controller
 					     'resource' => "http://{$faker->ipv4()}",
 						 'date' => rand($interval,$interval + 86400),
 						 'transfer' => rand(100,1099511531399)];
-			}
-			
+			}			
 		}
 		if(isset($data)){
 			return $data;
-		}
-		
+		}		
 	}
 	
-/* The function of sorting a two-dimensional array by the key limit */	
-	private function sortArray($array){
+	/* The function of sorting a two-dimensional array by the key limit */	
+	private function sortArray($array)
+	{
 		foreach($array as $k=>$val){
 			$sortkey[$array[$k]->limit]=$array[$k];
 		}
@@ -153,11 +152,11 @@ class Report extends Controller
 		krsort($sortkey);
 		
 		return $sortkey;
-
 	}
 	
 	/*Replacing the key with the name of the company and displaying a list of companies exceeding the quota */
-	public function reportListCompanies($list){
+	public function reportListCompanies($list)
+	{
 		foreach ($list as $key => $val){	
 			$abCompany[$val->name]=$val;
 		}
@@ -165,7 +164,8 @@ class Report extends Controller
 	}
 	
 	/* Formation of the list of abusers */
-	public function reportListAbusers(Request $request){
+	public function reportListAbusers(Request $request)
+	{
 		$month = (Null != $request->input('month')) ? (filter_var($request->input('month'), FILTER_SANITIZE_URL)) : '';
 		$id = (Null != $request->input('id')) ? (filter_var($request->input('id'), FILTER_SANITIZE_URL)) : '';
 		$monthArr = $this->monthInterval($month);
@@ -195,7 +195,8 @@ class Report extends Controller
 	}
 	
 	/* Find the first and last month in the list on the Abusers page */
-	private function monthInterval($month){
+	private function monthInterval($month)
+	{
 		if(!empty($month)){
 			$monthNameArr = [
 							'January'  => 2678400,
@@ -215,8 +216,7 @@ class Report extends Controller
 			$monthArr['startDate'] = strtotime('01-'.$month);	
 			$moutnName = substr($month,0,stripos($month,'-'));
 			$monthArr['finalDate'] = $monthArr['startDate'] + $monthNameArr[$moutnName];
-		}
-		else{
+		}else{
 			$monthArr['startDate'] = 0;	
 			$monthArr['finalDate'] = 0;
 		}

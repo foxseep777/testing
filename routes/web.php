@@ -23,4 +23,4 @@ Route::get('/companies', 'Companies@index');
 Route::get('/abusers', 'Report@index');
 
 
- 
+  

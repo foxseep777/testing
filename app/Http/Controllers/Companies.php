@@ -14,7 +14,7 @@ class Companies extends Controller
 		$companies = $this->listCompanies();
 			
 		return view('companies.listCompanies', ['companies' => $companies]);
-	}
+	} 
 	
 	/* Adding a new company */	
 	public function addcompany(Request $company)

@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\DB;
 class Users extends Controller
 {
 	/* List all users */
-
-	public function index(){
+	public function index()
+	{
     	$users	   = $this->listUsers();
 		$companies = $this->listCompanies();	
 			
@@ -18,8 +18,8 @@ class Users extends Controller
 	}
 	
 	/* Adding a new user */	
-
-	public function adduser(Request $user){	
+	public function adduser(Request $user)
+	{	
 		$data = ['user_name' => $user->input('name'),
 				'id_company' =>$user->input('company'),
 				'email' => $user->input('email'),
@@ -33,22 +33,24 @@ class Users extends Controller
 	}
 	
 	/* Selection of a list of users  before showing on the page */
-	private function listUsers(){
-			$users = DB::table('users')
+	private function listUsers()
+	{
+		$users = DB::table('users')
 
 			->join('companies', 'users.id_company', '=', 'companies.id')
 			->select('users.*', 'companies.name')
 			->orderBy('create_at','desc')
             ->get();
 			
-			return $users;
+		return $users;
 	}
 	
 	/* Selection of the user's company from the database */
-	private function listCompanies(){
-			$companies = DB::table('companies')->select('companies.id','companies.name')->get();	
+	private function listCompanies()
+	{
+		$companies = DB::table('companies')->select('companies.id','companies.name')->get();	
 			
-			return $companies;
+		return $companies;
 	}
 	
 }		
