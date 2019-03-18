@@ -51,7 +51,7 @@ class instandartModels extends Model
         'name' => 'required',
         'quota' => 'required',
       //  'created_at' => 'required',
-     //   'updated_at' => 'required'
+       // 'updated_at' => 'required' 
     ];
 
     
