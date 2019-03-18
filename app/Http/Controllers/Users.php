@@ -23,7 +23,7 @@ class Users extends Controller
 		$data = ['user_name' => $user->input('name'),
 				'id_company' =>$user->input('company'),
 				'email' => $user->input('email'),
-				'create_at' => time()];
+				'created_at' => time()];
 	
 		DB::table('users')->insert([$data]);
 	
@@ -39,7 +39,7 @@ class Users extends Controller
 
 			->join('companies', 'users.id_company', '=', 'companies.id')
 			->select('users.*', 'companies.name')
-			->orderBy('create_at','desc')
+			->orderBy('created_at','desc')
             ->get();
 			
 		return $users;
@@ -52,5 +52,5 @@ class Users extends Controller
 			
 		return $companies;
 	}
-	
+	 
 }		

@@ -23,4 +23,9 @@ Route::get('/companies', 'Companies@index');
 Route::get('/abusers', 'Report@index');
 
 
-  
+
+
+Route::resource('instandartModels', 'instandartModelsController');
+
+
+Route::resource('testModels', 'TestModelsController');

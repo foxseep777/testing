@@ -21,7 +21,7 @@ class Companies extends Controller
 	{	
 		$data = ['name' => $company->input('name'),
 				'quota' =>$company->input('quota')*1099511531399,
-				'create_at' => time()];
+				'created_at' => time()];
 	
 		DB::table('companies')->insert([$data]);
 
@@ -34,7 +34,7 @@ class Companies extends Controller
 	/* Selection of a list of companies and processing before showing on the page */
 	private function listCompanies()
 	{
-		$companies = DB::table('companies')->orderBy('create_at','desc')
+		$companies = DB::table('companies')->orderBy('created_at','desc')
 										   ->get();
 		
 		foreach($companies as $company){
