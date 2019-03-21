@@ -28,7 +28,7 @@ class CompanyController extends AppBaseController
      * @return Response
      */
     public function index(CompanyDataTable $companyDataTable)
-    {
+    {	
         return $companyDataTable->render('companies.index');
     }
 
@@ -51,6 +51,7 @@ class CompanyController extends AppBaseController
      */
     public function store(CreateCompanyRequest $request)
     {
+		
         $input = $request->all();
 
         $company = $this->companyRepository->create($input);

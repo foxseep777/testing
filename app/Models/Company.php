@@ -43,11 +43,9 @@ class Company extends Model
      * @var array
      */
     public static $rules = [
-        'id' => 'required',
         'name' => 'required',
         'quota' => 'required',
-        'created_at' => 'required',
-        'updated_at' => 'required'
+
     ];
 
     

@@ -34,14 +34,7 @@ class CompanyAPIController extends AppBaseController
      * @param Request $request
      * @return Response
      */
-    public function index(Request $request)
-    {
-        $this->companyRepository->pushCriteria(new RequestCriteria($request));
-        $this->companyRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $companies = $this->companyRepository->all();
-
-        return $this->sendResponse($companies->toArray(), 'Companies retrieved successfully');
-    }
+  
 
     /**
      * Store a newly created Company in storage.
