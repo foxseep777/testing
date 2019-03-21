@@ -31,7 +31,7 @@ class Report extends Controller
     public function generateData()
 	{
 						
-		$transfer = DB::table('users')->get();
+		$transfer = DB::table('users_comp')->get();
 		$faker = \Faker\Factory::create();
 		$now = time();
 		$intTotal = 6;
@@ -53,10 +53,10 @@ class Report extends Controller
 
 		DB::table('transfer')->insert($listUsed);
 				
-		$checkField =	DB::table('users')->whereNotExists(function ($query){
+		$checkField =	DB::table('users_comp')->whereNotExists(function ($query){
 											$query->select(DB::raw(1))
 												->from('transfer')
-												->whereRaw("transfer.user_id =users.id");
+												->whereRaw("transfer.user_id =users_comp.id");
 												})->get();
 
 		foreach($checkField as $key=>$user){
@@ -79,14 +79,14 @@ class Report extends Controller
 
 		$abusers = array();	
 				
-		$transfer = DB::table('users')
+		$transfer = DB::table('users_comp')
 					->join('companies', function($join)
 					{
-						$join->on('users.id_company', '=','companies.id')->select('users.id', 'users.user_name', 'companies.name');;
+						$join->on('users_comp.id_company', '=','companies.id')->select('users_comp.id', 'users_comp.user_name', 'companies.name');;
 					})
 					->get();
 
-		$transfer = \DB::table('users')->get();
+		$transfer = \DB::table('users_comp')->get();
 		$companyQuota = \DB::table('companies')->get();
 			
 		foreach($companyQuota as $quota){
@@ -173,9 +173,9 @@ class Report extends Controller
 	 	$users = DB::table('transfer')->where('date', '>', $monthArr['startDate'])
 									  ->where('company_id', '=', $id)
 									  ->where('date', '<', $monthArr['finalDate'])
-									  ->join('users', function($join)
+									  ->join('users_comp', function($join)
 									{
-										$join->on('users.id', '=','transfer.user_id')->select('users.id', 'users.user_name', 'transfer.resource');
+										$join->on('users_comp.id', '=','transfer.user_id')->select('users_comp.id', 'users_comp.user_name', 'transfer.resource');
 
 									})
 									->orderBy('transfer','desc')

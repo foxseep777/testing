@@ -11,16 +11,25 @@
 |
 */
 
+Auth::routes();
 
-
-Route::get('/', 'Users@index');
-Route::post('/adduser', 'Users@adduser');
-Route::post('/addcompany', 'Companies@addcompany');
-Route::get('/generate', 'Report@generateData');
-Route::get('/report', 'Report@report');
-Route::get('/reportAbusers', 'Report@reportListAbusers');
-Route::get('/companies', 'Companies@index');
-Route::get('/abusers', 'Report@index');
-
+Route::get('/', 'Users@index')->middleware('auth');
+Route::post('/adduser', 'Users@adduser')->middleware('auth');
+Route::post('/addcompany', 'Companies@addcompany')->middleware('auth');
+Route::get('/generate', 'Report@generateData')->middleware('auth');
+Route::get('/report', 'Report@report')->middleware('auth');
+Route::get('/reportAbusers', 'Report@reportListAbusers')->middleware('auth');
+Route::get('/companies', 'Companies@index')->middleware('auth');
+Route::get('/abusers', 'Report@index')->middleware('auth');
 
   
+
+Route::resource('companies', 'CompanyController')->middleware('auth');
+
+
+
+
+
+
+
+Route::resource('companies', 'CompanyController');
