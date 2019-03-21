@@ -162,14 +162,29 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+<<<<<<< HEAD
 		 Yajra\DataTables\DataTablesServiceProvider::class,
 
         /*
+=======
+		Collective\Html\HtmlServiceProvider::class,
+		Laracasts\Flash\FlashServiceProvider::class,
+		Prettus\Repository\Providers\RepositoryServiceProvider::class,
+		\InfyOm\Generator\InfyOmGeneratorServiceProvider::class,
+		\InfyOm\AdminLTETemplates\AdminLTETemplatesServiceProvider::class, 
+		Yajra\DataTables\DataTablesServiceProvider::class,
+		Yajra\DataTables\ButtonsServiceProvider::class,
+		Way\Generators\GeneratorsServiceProvider::class,
+		Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
+		
+
+        /*  
+>>>>>>> d2c6101f872bc565ce3c524a44c5849e9fd614ce
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
 
-        /*
+        /* 
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
@@ -189,7 +204,7 @@ return [
     | is started. However, feel free to register as many as you wish as
     | the aliases are "lazy" loaded so they don't hinder performance.
     |
-    */
+    */ 
 
     'aliases' => [
 
@@ -226,7 +241,14 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+<<<<<<< HEAD
 		'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+=======
+		'Form'      => Collective\Html\FormFacade::class,
+		'Html'      => Collective\Html\HtmlFacade::class,
+		'Flash'     => Laracasts\Flash\Flash::class,
+		 'DataTables' => Yajra\Datatables\Datatables::class,
+>>>>>>> d2c6101f872bc565ce3c524a44c5849e9fd614ce
 
     ],
 

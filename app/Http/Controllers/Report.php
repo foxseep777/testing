@@ -69,7 +69,6 @@ class Report extends Controller
 	/* Formation of the list of companies that exceeded the quota */
 	public function report(Request $request)
 	{
-	
 		$month = (Null != $request->input('month')) ? (filter_var($request->input('month'), FILTER_SANITIZE_URL)) : '';
 		
 		$monthArr = $this->monthInterval($month);
@@ -166,6 +165,7 @@ class Report extends Controller
 	/* Formation of the list of abusers */
 	public function reportListAbusers(Request $request)
 	{
+		
 		$month = (Null != $request->input('month')) ? (filter_var($request->input('month'), FILTER_SANITIZE_URL)) : '';
 		$id = (Null != $request->input('id')) ? (filter_var($request->input('id'), FILTER_SANITIZE_URL)) : '';
 		$monthArr = $this->monthInterval($month);

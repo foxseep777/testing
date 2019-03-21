@@ -21,10 +21,3 @@ Route::middleware('auth:api')->view('/user', function (Request $request) {
     return $request->user();
 });*/
 
-Route::resource('companies', 'CompanyAPIController');
-
-
-
-
-
-Route::resource('companies', 'CompanyAPIController');

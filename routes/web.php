@@ -27,9 +27,3 @@ Route::get('/abusers', 'Report@index')->middleware('auth');
 Route::resource('companies', 'CompanyController')->middleware('auth');
 
 
-
-
-
-
-
-Route::resource('companies', 'CompanyController');
